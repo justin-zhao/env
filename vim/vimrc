@@ -7,7 +7,7 @@ set number  "show line number
 set hlsearch    "highlight the search result
 set tabstop=4   "set tab key width
 set shiftwidth=4    "auto-indent amount when using cindent
-"set expandtab   "expand the tab key as blank, if set, shell script will be failed.
+set expandtab   "expand the tab key as blank, if set, shell script will be failed.
 set autoindent  "automatical section indent 
 "set autochdir   "automate to change the directory, if set, cscope can't open search result.
 set tags+=./tags;    "set the current directory as the project root directory.
