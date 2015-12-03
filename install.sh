@@ -21,6 +21,7 @@ if [ "$confirmr" = "yes" -o "$confirmr" = "y" -o "$confirmr" = "Y" -o "$confirmr
 	if [ "$searchr" = "" ]; then
 		echo 'export PATH=$PATH:~/bin' >> ~/.bashrc
 	fi
+	sed -i 's/^function! s:handleMiddleMouse()/&\n\treturn/g' ~/.vim/plugin/NERD_tree.vim
 else
 	echo "The install is canceled."
 fi
