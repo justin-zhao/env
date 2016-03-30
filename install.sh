@@ -7,7 +7,7 @@ if [ "$confirmr" = "yes" -o "$confirmr" = "y" -o "$confirmr" = "Y" -o "$confirmr
 	sudo rm -rf ~/bin/prjsetup.sh
 	sudo rm -rf ~/.vim
 
-	sudo apt-get install -y exuberant-ctags cscope ckermit vim
+	sudo apt-get install -y exuberant-ctags cscope ckermit vim screen
 
 	mkdir -p ~/bin
 	cp -r bin/* ~/bin/
@@ -21,6 +21,12 @@ if [ "$confirmr" = "yes" -o "$confirmr" = "y" -o "$confirmr" = "Y" -o "$confirmr
 	if [ "$searchr" = "" ]; then
 		echo 'export PATH=$PATH:~/bin' >> ~/.bashrc
 	fi
+
+	searchr=`grep 'caption always' /etc/screenrc`
+	if [ "$searchr" = "" ]; then
+		sudo sed -i '$acaption always "%{.bW}%-w%{.rW}%n %t%{-}%+w %=%H %Y/%m/%d "' /etc/screenrc
+	fi
+
 	sed -i 's/^function! s:handleMiddleMouse()/&\n\treturn/g' ~/.vim/plugin/NERD_tree.vim
 else
 	echo "The install is canceled."
