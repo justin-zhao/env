@@ -7,7 +7,7 @@ if [ "$confirmr" = "yes" -o "$confirmr" = "y" -o "$confirmr" = "Y" -o "$confirmr
 	sudo rm -rf ~/bin/prjsetup.sh
 	sudo rm -rf ~/.vim
 
-	sudo apt-get install -y exuberant-ctags cscope ckermit vim screen
+	sudo apt-get install -y exuberant-ctags cscope gkermit vim screen
 
 	mkdir -p ~/bin
 	cp -r bin/* ~/bin/
