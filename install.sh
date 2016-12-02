@@ -41,4 +41,9 @@ if [ "$searchr" = "" ]; then
 	sudo sed -i '$acaption always "%{.bW}%-w%{.rW}%n %t%{-}%+w %=%H %Y/%m/%d "' /etc/screenrc
 fi
 
+if [ "$distrover"x != "0"x ]; then
+	sed -i 's/[^"]cs add .\//"cs add .\//g' ~/.vim/vimrc
+fi
 sed -i 's/^function! s:handleMiddleMouse()/&\n\treturn/g' ~/.vim/plugin/NERD_tree.vim
+
+echo "The installatio is over!" 
