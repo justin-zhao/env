@@ -21,8 +21,8 @@ if [ "$distrover"x = "0"x ]; then
 else
 	sudo yum install -y ctags cscope vim screen minicom
 fi
-exit 0
 
+#Config the app
 mkdir -p ~/bin
 cp -r bin/* ~/bin/
 cp -r vim ~/.vim
