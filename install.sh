@@ -46,4 +46,4 @@ if [ "$distrover"x != "0"x ]; then
 fi
 sed -i 's/^function! s:handleMiddleMouse()/&\n\treturn/g' ~/.vim/plugin/NERD_tree.vim
 
-echo "The installatio is over!" 
+echo "The installation is over!" 
