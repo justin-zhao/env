@@ -13,37 +13,72 @@ sudo rm -rf ~/bin/prjsetup.sh
 sudo rm -rf ~/.vim
 
 #Check distribution version
-apt-get -h 2>/dev/null
-distrover=$?
+osv=Unknown
+uname -a|grep Ubuntu
+if [ "$?"x = "0"x ]; then
+	osv="Ubuntu"
+fi
 
-if [ "$distrover"x = "0"x ]; then
+uname -a|grep CentOS
+if [ "$?"x = "0"x ]; then
+	osv="CentOS"
+fi
+
+uname -a|grep Cygwin
+if [ "$?"x = "0"x ]; then
+	osv="Cygwin"
+fi
+
+# Preinstall app for different os
+if [ "$osv"x = "Ubuntu"x ]; then
     sudo apt-get install -y exuberant-ctags cscope gkermit vim screen
-else
+fi
+
+if [ "$osv"x = "CentOS"x ]; then
     sudo yum install -y ctags cscope vim screen minicom
 fi
 
 #Config the app
 mkdir -p ~/bin
 cp -r bin/* ~/bin/
-cp -r vim ~/.vim
-cp kermrc ~/.kermrc
+
+if [ "$osv"x = "Cygwin"x ]; then
+	vimcfgpath="/cygdrive/c/Program Files (x86)/Vim"
+	sudo cp -r vim/* "$vimcfgpath/"
+else
+	pushd ~ >/dev/null
+	vimcfgpath=`pwd`
+	popd >/dev/null
+	vimcfgpath="$vimcfgpath/.vim"
+	#mkdir -p $vimcfgpath
+	cp -r vim "$vimcfgpath"
+	cp kermrc ~/.kermrc
+	
+	sudo chown -R $USER: "$vimcfgpath"
+fi
 
 sudo chown -R $USER: ~/bin
-sudo chown -R $USER: ~/.vim
 
 searchr=`grep 'export PATH=\$PATH:~/bin' ~/.bashrc`
 if [ "$searchr" = "" ]; then
     echo 'export PATH=$PATH:~/bin' >> ~/.bashrc
 fi
 
-searchr=`grep 'caption always' /etc/screenrc`
-if [ "$searchr" = "" ]; then
-    sudo sed -i '$acaption always "%{.bW}%-w%{.rW}%n %t%{-}%+w %=%H %Y/%m/%d "' /etc/screenrc
+if [ "$osv"x != "Cygwin"x ]; then
+	searchr=`grep 'caption always' /etc/screenrc`
+	if [ "$searchr" = "" ]; then
+	    sudo sed -i '$acaption always "%{.bW}%-w%{.rW}%n %t%{-}%+w %=%H %Y/%m/%d "' /etc/screenrc
+	fi
 fi
 
-if [ "$distrover"x != "0"x ]; then
-    sed -i 's/[^"]cs add .\//"cs add .\//g' ~/.vim/vimrc
+if [ "$osv"x != "Ubuntu"x ]; then
+    sed -i 's/[^"]cs add .\//"cs add .\//g' "$vimcfgpath/vimrc"
 fi
-sed -i 's/^function! s:handleMiddleMouse()/&\n\treturn/g' ~/.vim/plugin/NERD_tree.vim
+sed -i 's/^function! s:handleMiddleMouse()/&\n\treturn/g' "$vimcfgpath/plugin/NERD_tree.vim"
 
+if [ "$osv"x = "Cygwin"x ]; then
+	sudo mv "$vimcfgpath/vimrc" "$vimcfgpath/_vimrc"
+fi
+
+echo ""
 echo "The installation is over!" 
