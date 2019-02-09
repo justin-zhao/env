@@ -19,7 +19,7 @@ if [ "$?"x = "0"x ]; then
 	osv="Ubuntu"
 fi
 
-uname -a|grep CentOS
+grep "NAME=" /etc/os-release |grep "CentOS"
 if [ "$?"x = "0"x ]; then
 	osv="CentOS"
 fi
